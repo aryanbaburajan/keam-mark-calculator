@@ -1,10 +1,8 @@
-import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
-import axios from "axios";
+import answerKeyList from "@/lib/answerKeys.json" assert { type: "json" };
 
-async function extractAnswers(sessionDate: Date, session: String) {
+async function extractAnswers(sessionDate: Date, session: string) {
   // prettier-ignore
-  const answerKeyList:any = {"23F":["E","B","E","D","B","E","D","D","E","D","C","A","E","B","D","C","B","D","E","A","D","D","E","D","A","C","C","C","C","C",null,"E","D","A","E","A","C","E","B","E","A","B","C","D","E","A","C","D","C","A","C","C","D","B","D","A","B","C","B","E","C","B","A","D","A","E","C","A","D","C","C","A","D","E","B","B",null,"B","D","C","D","A","C","B","E","D","A","A","C","D","B","A","B","B","A","B","E","E","B","E","D","E","B","D","B","C","D","E","D","E",null,"A","B","C","A","B","A","C","B","E","C","A","C","E","A","B","A","C","E","B","A","A","C","A","D","B","E","D","E","D","E","D","E","C","A","B","C","D","E","A"],"24A":["D","A","D","B","E","C","E","C","D","C","A","D","C","B","A","B","C","E","D","C","B","A","A","D","C","E","D","B","A","C","E","E","B","E","A","C","D","B","E","B","D","C","A","D","A","A","B","E","D","B","E","C","E","D","D","E","B","E","A","B","B","C","A","C","C","A","D","E","B","A","B","D","E","C","A"],"24F":["C","E","B","A","C","E","E","E","D","C","A","E","A","C","E","C","B","E","D","B","D","B","D","D","D","C","D","E","D","C","A","B","D","A","C","B","D","A","E","A","C","C","E","A","A","D","B","D","C","A","B","E","B","D","A","E","B","C","B","E","C","B","C","A","E","A","C","A","E","B","B","B","D","D","A"],"25F":["B","E","C","D","D","B","C","D","C","B","C","D","A","E","E","B","D","A","E","A","A","B","B","E","E","E","B","A","C","D","B","E","D","E","D","C","E","D","B","E","E","A","B","E","D","A","E","B","D","D","A","B","A","B","D","B","E","C","A","B","D","A","D","E","E","D","D","A","B","E","A","E","C","A","E","D","B","A","C","B","C","C","B","D","C","B",null,"C","D","A","A","A","E","B","C","B","C","C","D",null,"D","E","E","C","A","B","A","C","C","D","C","A","D","A","B","C","A","A","C","E","C","D","E","A","C","D","E","A","B","C","D","C","B","A","A","B","C","D","E","A","A","B","C","E","D","A","B","C","C",null],"26F":["D","A","D","A","B","E","C","B","D","C","C","D","C","D","E","E","C","B","E","A","E","C","C","B","E","B","A","C","D","A","A","D","A","D","E","B","C","D","C","C","A","A","A","D","B","D","D","A","C","E","A","D","B","E","D","E","A","B","B","E","B","D","A","B","C","E","A","B","C","E","D","E","A","C","D","A","A","D","E","B","C","E","A",null,"D","D","A","B","A","E","C","A","D","B","E","A","C","E","B","D","C","A","E","B","D","C","D","B","E","A","A","E","B","A","B","C","D","A","B","B","A","B","B","C","D","E","E","C","D","C","C","E","D","B","B","C","A","E","E","B","C","D","B","B","E","C","E","D","C","E"],"27F":["C","D","E","D","D","B","D","E","A","D",null,"E","A","E","C","A","A","D","A","C","B","D","A","C","A","B","E","B",null,"E","D","E","C","E","C","D","E","E","D","C","E",null,"A","A","A","B","D","E","C","B","B","C","E","C",null,"B","E","D","A","D","E","D","D","E","B","E","D","A","A","A","E","C","E","C","B","E","A","A","D","B","E","C","D","A","D","A","C","B",null,"B","C","D","C","A","C","B","B","A","B","D","E","C","A","E","C","A","D","A","B","C","C","B","C","A","A","B","B","D","E","A","B","C","C","E","D","B","B","B","D","C","D","C","D","E","E","A","B","C","D","E","E","C","D","B","D","A","B","A","C","A"],"28F":["C","D","B","E","D","C","E","B","C","D","A","E","E","B","D","B","B","A","D","B","A","C","B","D","A","B","E","D","D","E","B","D","C","E","E","A","B","E","A","B","D","E","B","C","D","C","A","A","D","C","B","D","D","E","E","A","E","C","C","B","A","E","C","B",null,"D","A","D","D","C","D","B","E","C","B","A","C","A","D","C","E","D","B","D","A","E","A","A","B","E","A","E","C","B","B","C","A","E",null,"A","B","C","B","C","D","C","A","E","B","C","B","D","C","A","A","A","A","B","D","B","B","E","D","C","A","D",null,"B","E","C",null,"E","A","E","C","A","E","D","C",null,"E","E","C","A","D","C","B","D","E","E"],"29A":["B",null,"A","D","E","E","B","E","C","E","D","A","E","D","B","B","A","B","C","E","D","C","A","C","B","D","D","A","B","E","A","E","B","A","B","C","A","D",null,"A",null,"C","B","E","D","C","C","D","C","E","C","E","B","D","A","B","A","D","A","A","C","E","D","B","B","D","D","D","B","D","E","C","B",null,"D","C","B","C","D","E","E","D","C","A","D","B","D","B","A","C","D","B","E","A","D","E","E","B","C","C","E","A","D","B","C","D","A",null,"D","D","C","A","B","A","A","B",null,"C","B","C","D","E","C","E","A","C","B","A","E","E","E","A","E","B","E","A","A","C","B","A","A","C","D","E","C","C","A","B","C","C"],"29F":["A","B","C","D","E","D","C","B","E","B",null,"D","A","B","D","E","D","C","B","E","B","A","D","C","D","A","E","E","D","C","B","A","E","E","A","B","D","D","B","E","C","B","C","E","C","D","A","A","E","B","A","E","A","C","B","A","D","B","A","C","E","C","E","B","D","A","D","A","C","E","B","D","A","A","B"]}
-  return answerKeyList[String(sessionDate.getDate()) + session];
+  return (answerKeyList as Record<string, (string | null)[]>)[String(sessionDate.getDate()) + session];
 }
 
 async function extractResponses(file: File) {
@@ -40,12 +38,14 @@ export async function processScore(
     const answers = await extractAnswers(sessionDate, sessionTime);
     const responses = await extractResponses(candidateResponseFile);
 
-    const rating = answers.map((_, questionNumber: number) => {
+    const rating: number[] = answers.map((_, questionNumber: number) => {
       if (responses[questionNumber] === "N" || answers[questionNumber] === null)
         return 0;
 
       if (responses[questionNumber] !== answers[questionNumber]) return -1;
       if (responses[questionNumber] === answers[questionNumber]) return 4;
+
+      return 0;
     });
 
     const score = rating.reduce((a, b) => a + b);
@@ -53,6 +53,6 @@ export async function processScore(
     const incorrect = rating.filter((x) => x === -1).length;
     const cancelled = answers.filter((x) => x === null).length;
 
-    return { score, correct, incorrect, cancelled };
+    return { score, correct, incorrect, cancelled } as Result;
   }
 }
