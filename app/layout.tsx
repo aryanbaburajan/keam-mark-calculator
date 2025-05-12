@@ -14,7 +14,6 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "KEAM Mark Calculator",
-  description: "Created by @aryanbaburajan",
 };
 
 export default function RootLayout({
