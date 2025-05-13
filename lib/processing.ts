@@ -38,20 +38,15 @@ export async function processScore(
     const answers = await extractAnswers(sessionDate, sessionTime);
     const responses = await extractResponses(candidateResponseFile);
 
-    const rating: number[] = answers.map((_, questionNumber: number) => {
-      if (responses[questionNumber] === "N" || answers[questionNumber] === null)
-        return 0;
-
-      if (responses[questionNumber] !== answers[questionNumber]) return -1;
-      if (responses[questionNumber] === answers[questionNumber]) return 4;
-
-      return 0;
-    });
-
-    const score = rating.reduce((a, b) => a + b);
-    const correct = rating.filter((x) => x === 4).length;
-    const incorrect = rating.filter((x) => x === -1).length;
+    const correct = answers.filter(
+      (_, idx) => answers[idx] === responses[idx] && answers[idx] !== null
+    ).length;
+    const incorrect = answers.filter(
+      (_, idx) => answers[idx] !== responses[idx] && responses[idx] !== "N"
+    ).length;
     const cancelled = answers.filter((x) => x === null).length;
+
+    const score = correct * 4 + incorrect * -1 + cancelled * 4;
 
     return { score, correct, incorrect, cancelled } as Result;
   }
