@@ -42,7 +42,7 @@ export default function Home() {
     <main>
       <div className="flex h-screen items-center font-[family-name:var(--font-geist-mono)]">
         <div className="flex flex-col gap-6 w-xs mx-auto">
-          <h3 className="mb-2 text-2xl font-semibold">KEAM Mark Calculator</h3>
+          <h3 className="mb-2 text-2xl font-bold">KEAM Mark Calculator</h3>
           <div className="flex items-end">
             <div className="w-3/5">
               <Label className="mb-2 block">Choose your session.</Label>
